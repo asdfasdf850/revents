@@ -1,16 +1,13 @@
-import React, { StrictMode } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
-import './app/layout/styles.css'
+import 'semantic-ui-css/semantic.min.css'
+
 import App from './app/layout/App'
 import * as serviceWorker from './serviceWorker'
+import './app/layout/styles.css'
 
 function render() {
-  ReactDOM.render(
-    <StrictMode>
-      <App />
-    </StrictMode>,
-    document.getElementById('root')
-  )
+  ReactDOM.render(<App />, document.getElementById('root'))
 }
 
 if (module.hot) {
