@@ -1,9 +1,16 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { Button, Form, Header, Segment } from 'semantic-ui-react'
 import cuid from 'cuid'
-import { Link } from 'react-router-dom'
 
-export default function EventForm({ setFormOpen, setEvents, createEvent, selectedEvent, updateEvent }) {
+import { createEvent, updateEvent } from '../eventActions'
+
+export default function EventForm({ match, history }) {
+  const dispatch = useDispatch()
+  const selectedEvent = useSelector(state =>
+    state.event.events.find(evt => evt.id === match.params.id)
+  )
   const initialValues = selectedEvent ?? {
     title: '',
     category: '',
@@ -16,9 +23,17 @@ export default function EventForm({ setFormOpen, setEvents, createEvent, selecte
 
   function handleFormSubmit(e) {
     selectedEvent
-      ? updateEvent({ ...selectedEvent, ...values })
-      : createEvent({ ...values, id: cuid(), hostedBy: 'Bob', attendees: [], hostPhotoURL: '/assets/user.png' })
-    setFormOpen(false)
+      ? dispatch(updateEvent({ ...selectedEvent, ...values }))
+      : dispatch(
+          createEvent({
+            ...values,
+            id: cuid(),
+            hostedBy: 'Bob',
+            attendees: [],
+            hostPhotoURL: '/assets/user.png'
+          })
+        )
+    history.push('/events')
   }
 
   function handleInputChange(e) {
@@ -58,7 +73,13 @@ export default function EventForm({ setFormOpen, setEvents, createEvent, selecte
           />
         </Form.Field>
         <Form.Field>
-          <input type='text' placeholder='City' name='city' value={values.city} onChange={e => handleInputChange(e)} />
+          <input
+            type='text'
+            placeholder='City'
+            name='city'
+            value={values.city}
+            onChange={e => handleInputChange(e)}
+          />
         </Form.Field>
         <Form.Field>
           <input
@@ -70,7 +91,13 @@ export default function EventForm({ setFormOpen, setEvents, createEvent, selecte
           />
         </Form.Field>
         <Form.Field>
-          <input type='date' placeholder='Date' name='date' value={values.date} onChange={e => handleInputChange(e)} />
+          <input
+            type='date'
+            placeholder='Date'
+            name='date'
+            value={values.date}
+            onChange={e => handleInputChange(e)}
+          />
         </Form.Field>
         <Button type='submit' floated='right' positive content='Submit' />
         <Button floated='right' content='Cancel' as={Link} to='/events' />
