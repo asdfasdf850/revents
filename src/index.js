@@ -11,11 +11,8 @@ import * as serviceWorker from './serviceWorker'
 import { configureStore } from './app/store/configureStore'
 import ScrollToTop from './app/layout/ScrollToTop'
 import './app/layout/styles.css'
-import { loadEvents } from './features/events/eventActions'
 
 const store = configureStore()
-
-store.dispatch(loadEvents())
 
 function render() {
   ReactDOM.render(
