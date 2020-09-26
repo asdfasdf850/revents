@@ -4,7 +4,7 @@ import { Button, Menu } from 'semantic-ui-react'
 
 import { openModal } from '../../app/common/modals/modalReducer'
 
-export default function SignedOutMenu({ setAuthenticated }) {
+export default function SignedOutMenu() {
   const dispatch = useDispatch()
 
   return (
@@ -20,6 +20,7 @@ export default function SignedOutMenu({ setAuthenticated }) {
         inverted
         content='Register'
         style={{ marginLeft: '0.5em' }}
+        onClick={() => dispatch(openModal({ modalType: 'RegisterForm' }))}
       />
     </Menu.Item>
   )
