@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { format } from 'date-fns'
 import { Button, Grid, Header, Tab } from 'semantic-ui-react'
+
 import ProfileForm from './ProfileForm'
 
 export default function AboutTab({ profile, isCurrentUser }) {
