@@ -2,10 +2,10 @@ import React from 'react'
 import { Redirect } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Grid } from 'semantic-ui-react'
+
 import { listenToEventFromFirestore } from '../../../app/firestore/firestoreService'
 import useFirestoreDoc from '../../../app/hooks/useFirestoreDoc'
 import { listenToEvents } from '../eventActions'
-
 import EventDetailedChat from './EventDetailedChat'
 import EventDetailedHeader from './EventDetailedHeader'
 import EventDetailedInfo from './EventDetailedInfo'
@@ -35,7 +35,7 @@ export default function EventDetailedPage({ match }) {
       <Grid.Column width={10}>
         <EventDetailedHeader event={event} isHost={isHost} isGoing={isGoing} />
         <EventDetailedInfo event={event} />
-        <EventDetailedChat />
+        <EventDetailedChat eventId={event.id} />
       </Grid.Column>
       <Grid.Column width={6}>
         <EventDetailedSidebar attendees={event.attendees} hostUid={event.hostUid} />
