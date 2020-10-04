@@ -6,7 +6,7 @@ import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 
 import { categoryData } from '../../../app/api/categoryOptions'
-import { listenToEvents } from '../eventActions'
+import { listenToSelectedEvent } from '../eventActions'
 import MyTextInput from '../../../app/common/form/MyTextInput'
 import MyTextArea from '../../../app/common/form/MyTextArea'
 import MySelectInput from '../../../app/common/form/MySelectInput'
@@ -26,9 +26,7 @@ export default function EventForm({ match, history }) {
   const [loadingCancel, setLoadingCancel] = useState(false)
   const [confirmOpen, setConfirmOpen] = useState(false)
   const { loading, error } = useSelector(state => state.async)
-  const selectedEvent = useSelector(state =>
-    state.event.events.find(evt => evt.id === match.params.id)
-  )
+  const { selectedEvent } = useSelector(state => state.event)
   const initialValues = selectedEvent ?? {
     title: '',
     category: '',
@@ -62,7 +60,7 @@ export default function EventForm({ match, history }) {
   useFirestoreDoc({
     shouldExecute: !!match.params.id,
     query: () => listenToEventFromFirestore(match.params.id),
-    data: event => dispatch(listenToEvents([event])),
+    data: event => dispatch(listenToSelectedEvent(event)),
     deps: [match.params.id, dispatch]
   })
 
@@ -122,13 +120,7 @@ export default function EventForm({ match, history }) {
               positive
               content='Submit'
             />
-            <Button
-              disabled={isSubmitting}
-              floated='right'
-              content='Cancel'
-              as={Link}
-              to='/events'
-            />
+            <Button disabled={isSubmitting} floated='right' content='Cancel' as={Link} to='/events' />
           </Form>
         )}
       </Formik>
